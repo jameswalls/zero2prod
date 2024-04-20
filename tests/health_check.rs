@@ -18,6 +18,6 @@ async fn health_check_works() {
 }
 
 fn spawn_app() {
-    let server = zero2prod::run().expect("Failed to bind address");
+    let server = zero2prod::run("127.0.0.1:8000").expect("Failed to bind address");
     let _ = tokio::spawn(server);
 }
