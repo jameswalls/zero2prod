@@ -10,8 +10,7 @@ pub struct TestApp {
 }
 
 async fn spawn_app() -> TestApp {
-    let listener = TcpListener::bind("127.0.0.1:0")
-        .expect("Failed to bind random port");
+    let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
     let port = listener.local_addr().unwrap().port();
     let address = format!("http://127.0.0.1:{}", port);
 
@@ -19,18 +18,18 @@ async fn spawn_app() -> TestApp {
     configuration.database.database_name = Uuid::new_v4().to_string();
     let connection_pool = configure_database(&configuration.database).await;
 
-    let server = run(listener, connection_pool.clone())
-        .expect("Failed to bind address");
+    let server = run(listener, connection_pool.clone()).expect("Failed to bind address");
     let _ = tokio::spawn(server);
 
-    TestApp { address, db_pool: connection_pool }
+    TestApp {
+        address,
+        db_pool: connection_pool,
+    }
 }
 
 pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
     // create database
-    let mut connection = PgConnection::connect(
-            &config.connection_string_without_db()
-        )
+    let mut connection = PgConnection::connect(&config.connection_string_without_db())
         .await
         .expect("Failed to connect to postgres.");
 
@@ -48,7 +47,7 @@ pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
         .run(&connection_pool)
         .await
         .expect("Failed to migrate the database.");
-    
+
     connection_pool
 }
 
