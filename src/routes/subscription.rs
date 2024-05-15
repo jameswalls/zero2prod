@@ -1,7 +1,7 @@
 use actix_web::{web, HttpResponse};
+use chrono::Utc;
 use sqlx::PgPool;
 use uuid::Uuid;
-use chrono::Utc;
 
 #[derive(serde::Deserialize, Debug)]
 pub struct FormData {
