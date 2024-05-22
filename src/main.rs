@@ -8,13 +8,9 @@ use zero2prod::startup::run;
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
-    let env_filter = EnvFilter::try_from_default_env()
-        .unwrap_or_else(|_| EnvFilter::new("info"));
+    let env_filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info"));
 
-    let formatting_layer = BunyanFormattingLayer::new(
-        "zero2prod".into(),
-        std::io::stdout
-    );
+    let formatting_layer = BunyanFormattingLayer::new("zero2prod".into(), std::io::stdout);
 
     let subscriber = Registry::default()
         .with(env_filter)
