@@ -58,7 +58,7 @@ pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
         .expect("FAiled to create database.");
 
     // migrate database
-    let connection_pool = PgPool::connect(&config.connection_string().expose_secret())
+    let connection_pool = PgPool::connect(config.connection_string().expose_secret())
         .await
         .expect("Failed to connect to Postgres.");
 
